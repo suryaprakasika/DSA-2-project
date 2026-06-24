@@ -1,0 +1,42 @@
+import java.util.*;
+
+class Delivery {
+    int over;
+    int ball;
+
+    Delivery(int over, int ball) {
+        this.over = over;
+        this.ball = ball;
+    }
+}
+
+public class CountingSortCricket {
+
+    public static void main(String[] args) {
+
+        Delivery[] deliveries = {
+                new Delivery(3, 6),
+                new Delivery(1, 3),
+                new Delivery(2, 4),
+                new Delivery(1, 1),
+                new Delivery(3, 1),
+                new Delivery(2, 2),
+                new Delivery(1, 5),
+                new Delivery(3, 4),
+                new Delivery(2, 6),
+                new Delivery(1, 2)
+        };
+
+        Arrays.sort(deliveries, (a, b) -> {
+            if (a.over == b.over)
+                return a.ball - b.ball;
+            return a.over - b.over;
+        });
+
+        System.out.println("Sorted Deliveries:");
+
+        for (Delivery d : deliveries) {
+            System.out.print("(" + d.over + "," + d.ball + ") ");
+        }
+    }
+}
