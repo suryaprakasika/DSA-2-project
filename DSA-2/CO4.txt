@@ -1,0 +1,66 @@
+import java.util.*;
+
+class Edge {
+    String src, dest;
+    int weight;
+
+    Edge(String s, String d, int w) {
+        src = s;
+        dest = d;
+        weight = w;
+    }
+}
+
+public class BellmanFord {
+
+    public static void main(String[] args) {
+
+        String[] vertices = {"MJC", "KEM", "JAY", "KOR", "WHF", "HBR", "MRT"};
+
+        ArrayList<Edge> edges = new ArrayList<>();
+
+        edges.add(new Edge("MJC", "JAY", 5));
+        edges.add(new Edge("MJC", "KEM", 8));
+        edges.add(new Edge("JAY", "KOR", 4));
+        edges.add(new Edge("KEM", "KOR", 3));
+        edges.add(new Edge("KOR", "MRT", 9));
+        edges.add(new Edge("KOR", "HBR", 6));
+        edges.add(new Edge("HBR", "WHF", 0));
+        edges.add(new Edge("WHF", "MRT", -3));
+        edges.add(new Edge("JAY", "HBR", 10));
+        edges.add(new Edge("KEM", "WHF", 7));
+        edges.add(new Edge("MRT", "HBR", 3));
+
+        HashMap<String, Integer> dist = new HashMap<>();
+
+        for (String v : vertices)
+            dist.put(v, Integer.MAX_VALUE);
+
+        dist.put("MJC", 0);
+
+        for (int i = 0; i < vertices.length - 1; i++) {
+            for (Edge e : edges) {
+                if (dist.get(e.src) != Integer.MAX_VALUE &&
+                        dist.get(e.src) + e.weight < dist.get(e.dest)) {
+                    dist.put(e.dest, dist.get(e.src) + e.weight);
+                }
+            }
+        }
+
+        System.out.println("Shortest Distances from MJC:");
+        for (String v : vertices)
+            System.out.println(v + " = " + dist.get(v));
+
+        boolean negativeCycle = false;
+
+        for (Edge e : edges) {
+            if (dist.get(e.src) != Integer.MAX_VALUE &&
+                    dist.get(e.src) + e.weight < dist.get(e.dest)) {
+                negativeCycle = true;
+                break;
+            }
+        }
+
+        System.out.println("Negative Cycle: " + negativeCycle);
+    }
+}
